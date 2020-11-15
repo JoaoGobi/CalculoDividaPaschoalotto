@@ -1,0 +1,133 @@
+<html>
+<head>
+  <title>Caculadora de Dívidas</title>
+</head>
+<body>
+  <h1>Calcular</h1>
+  <hr />
+  <div class="card" style="width: 100%;">
+    <div class="card-body">
+      <h5 class="card-title">Valores dinâmicos:</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Quantidade máxima de parcelas:</label>
+          <input class="form-control" type="number" [(ngModel)]="quantidadeParcelas" id="inputQuantidadeParcelas" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Tipo de Juros:</label>
+          <select class="form-control" type="text" id="selectTipoJuros" [(ngModel)]="tipoJuros">
+            <option *ngFor="let tipo of tipoJurosArray">{{tipo}}</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Porcentagem (%) de juros:</label>
+          <input class="form-control" type="number" [(ngModel)]="porcentagemJuros" id="inputPorcentagemJuros" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Porcentagem (%) de comissão:</label>
+          <input class="form-control" type="number" [(ngModel)]="porcentagemComissao" id="inputPorcentagemComissao" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="card" style="width: 100%;">
+    <div class="card-body">
+      <h5 class="card-title">Valores dívida:</h5>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="form-label">Valor da dívida:</label>
+          <input class="form-control" type="number" [(ngModel)]="valorDivida" id="inputValorDivida" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Data de vencimento:</label>
+          <input class="form-control" type="date" [(ngModel)]="dataVencimento" id="inputDataVencimento" />
+        </div>
+        <div class="col-md-6"></div>
+        <div class="col-md-10"></div>
+        <div class="col-md-2">
+          <label class="form-label">&nbsp;</label>
+          <button class="btn-primary btn form-control" (click)="calcularDivida(content)" id="buttonCalculaDivida">Calcular dívida</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Dívida Finalizada</h4>
+    </div>
+    <div class="modal-body">
+      <div class="card" style="width: 100%;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Valor da dívida:</label>
+              <input class="form-control" type="number" [(ngModel)]="valorDivida" id="inputValorDivida" disabled />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Data de vencimento:</label>
+              <input class="form-control" type="date" [(ngModel)]="dataVencimento" id="inputDataVencimento" disabled />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Dias de atraso:</label>
+              <input class="form-control" type="number" [(ngModel)]="diasAtraso" id="inputDiasAtraso" disabled />
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Valor da Comissão:</label>
+              <input class="form-control" type="number" [(ngModel)]="valorComissao" id="inputValorComissao" disabled />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Valor do Juros:</label>
+              <input class="form-control" type="number" [(ngModel)]="valorJuros" id="inputValorJuros" disabled />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Valor final:</label>
+              <input class="form-control" type="number" [(ngModel)]="valorFinal" id="inputValorFinal" disabled />
+            </div>
+          </div>
+          <br />
+          <div class="card" style="width: 100%;">
+            <div class="card-body">
+              <h5 class="card-title">Valor final de cada parcela:</h5>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Número</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Data de Vencimento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let parcela of valorFinalParcelas">
+                    <th scope="row">{{ parcela.numeroParcela }}</th>
+                    <td>R$ {{ parcela.valorParcela}}</td>
+                    <td>{{ parcela.dataVencimento}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <br />
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Telefone do colaborador:</label>
+              <input class="form-control" type="text" [(ngModel)]="telefoneColaborador" id="inputTelefoneColaborador" disabled />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Voltar</button>
+    </div>
+  </ng-template>
+  <br />
+  <ngb-alert #selfClosingAlert *ngIf="mensagem" type="danger" (closed)="mensagem != ''">
+    {{ mensagem }}
+  </ngb-alert>
+</body>
+</html>
+
